@@ -19,100 +19,91 @@ let question = [
         title: "Gato",
         choices: ["dog", "cat", "bird", "fish"],
         correct: 1
+    },
+    {
+        title: 'ave',
+        choices: ['mouse', 'hamster', 'lizard', 'bird'],
+       correct: 3
+    },
+    {
+        title: 'rata',
+        choices: ['cat', 'fish', 'rat', 'shark'],
+       correct: 2
+    },
+    {
+        title: 'mosca',
+        choices: ['fly', 'puma', 'fish', 'dog'],
+       correct: 0
     }
 ];
-var currentQuestionIndex = 0;
 
 
 let app = {
 
     start: function () {
-            let choices = document.querySelectorAll(".choices");
 
-            choices.forEach(function (element, index) {
-                element.addEventListener('click', function () {
+        this.currentQuestionIndex = 0
+        let choices = document.querySelectorAll(".choices");
+
+        // use arrow function to keep context for the check answer method
+            choices.forEach((element, index) => {
+
+                element.addEventListener('click', () => {
                     console.log("show first question");
+                    this.checkAnswer(index)
                 });
             });
 
-            // show first question
-            this.showFirstQuestion(question[currentQuestionIndex]);
-        },
+        // show question
+        this.showQuestion(question[this.currentQuestionIndex]);
+    },
 
-    showFirstQuestion: function(q){
-            let titleEl = document.getElementById("questionTitle");
+    showQuestion: function (q) {
+        // show title
+        let titleEl = document.getElementById("questionTitle");
+        titleEl.textContent = q.title;
 
-            // 2. Give titleEl a value.
-            titleEl.textContent = q.title;
-        
-            // select all choices
-            let choices = document.querySelectorAll(".choices");
-        
-            choices.forEach(function (element, index) {
-                element.textContent = q.choices[index];
-                element.addEventListener('click', function () {
-                    if (q.correct == index) {
-                        console.log("correct")
-                    }
-                    else {
-                        console.log("wrong")
-                    }
-                })
-        
-            });
-        
+        // create all choices
+        let choices = document.querySelectorAll(".choices");
+
+        choices.forEach(function (element, index) {
+            element.textContent = q.choices[index];
+        });
+    },
+
+    checkAnswer: function (userChoice) {
+        let currentQuestionIndex = question[this.currentQuestionIndex]
+        if (currentQuestionIndex.correct == userChoice) {
+            // correct
+            console.log("correct")
+        } else {
+            // notcorrect
+            console.log("wrong")
         }
-        };
+
+        // change question
+        this.changeQuestion();
+
+        // show next question
+        this.showQuestion(question[this.currentQuestionIndex]);
+
+    },
+
+    changeQuestion: function() {
+        this.currentQuestionIndex++;
+
+        if(this.currentQuestionIndex == question.length) {
+            this.currentQuestionIndex = 0;
+        }
+    }
+};
 
 
-
-// function start() {
-//   // select all choices
-//   let choices = document.querySelectorAll(".choices");
-
-//   choices.forEach(function (element, index) {
-//       element.addEventListener('click', function () {
-//           console.log("show first question")
-//       });
-//     });
-//     showFirstQuestion(question[currentQuestionIndex])
-// }
-
-// function showFirstQuestion(q) {
-
-//     // 1. select dom element
-//     let titleEl = document.getElementById("questionTitle");
-
-//     // 2. Give titleEl a value.
-//     titleEl.textContent = q.title;
-
-//     // select all choices
-//     let choices = document.querySelectorAll(".choices");
-
-//     choices.forEach(function (element, index) {
-//         element.textContent = q.choices[index];
-//         element.addEventListener('click', function () {
-//             if (q.correct == index) {
-//                 console.log("correct")
-//             }
-//             else {
-//                 console.log("wrong")
-//             }
-//         })
-
-//     });
-
-
+// function selectAnswer(event) {
+//     console.log('hello')
 // }
 
 
-// showFirstQuestion(question[currentQuestionIndex])
-
-function selectAnswer(event) {
-    console.log('hello')
-}
-
-
-submitBtn.addEventListener('click', selectAnswer)
+// submitBtn.addEventListener('click', selectAnswer)
 
 app.start();
