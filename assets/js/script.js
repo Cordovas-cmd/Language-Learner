@@ -12,7 +12,7 @@ Show result (right/wrong)
 Update user score
 Show next Question (if there are no more game over.)
 */
-
+let submitBtn = document.getElementById("submitBtn");
 
 let question = [
     {
@@ -20,28 +20,99 @@ let question = [
         choices: ["dog", "cat", "bird", "fish"],
         correct: 1
     }
-]
-
+];
 var currentQuestionIndex = 0;
 
 
-function showFirstQuestion(q) {
+let app = {
 
-    // 1. select dom element
-    let titleEl = document.getElementById("questionTitle");
+    start: function () {
+            let choices = document.querySelectorAll(".choices");
 
-    // 2. Give titleEl a value.
-    titleEl.textContent = q.title;
+            choices.forEach(function (element, index) {
+                element.addEventListener('click', function () {
+                    console.log("show first question");
+                });
+            });
 
-    // select all choices
-    let choices = document.querySelectorAll(".choices");
+            // show first question
+            this.showFirstQuestion(question[currentQuestionIndex]);
+        },
 
-    choices.forEach(function(element, index){
-        element.textContent = q.choices[index];
-    });
+    showFirstQuestion: function(q){
+            let titleEl = document.getElementById("questionTitle");
+
+            // 2. Give titleEl a value.
+            titleEl.textContent = q.title;
+        
+            // select all choices
+            let choices = document.querySelectorAll(".choices");
+        
+            choices.forEach(function (element, index) {
+                element.textContent = q.choices[index];
+                element.addEventListener('click', function () {
+                    if (q.correct == index) {
+                        console.log("correct")
+                    }
+                    else {
+                        console.log("wrong")
+                    }
+                })
+        
+            });
+        
+        }
+        };
 
 
+
+// function start() {
+//   // select all choices
+//   let choices = document.querySelectorAll(".choices");
+
+//   choices.forEach(function (element, index) {
+//       element.addEventListener('click', function () {
+//           console.log("show first question")
+//       });
+//     });
+//     showFirstQuestion(question[currentQuestionIndex])
+// }
+
+// function showFirstQuestion(q) {
+
+//     // 1. select dom element
+//     let titleEl = document.getElementById("questionTitle");
+
+//     // 2. Give titleEl a value.
+//     titleEl.textContent = q.title;
+
+//     // select all choices
+//     let choices = document.querySelectorAll(".choices");
+
+//     choices.forEach(function (element, index) {
+//         element.textContent = q.choices[index];
+//         element.addEventListener('click', function () {
+//             if (q.correct == index) {
+//                 console.log("correct")
+//             }
+//             else {
+//                 console.log("wrong")
+//             }
+//         })
+
+//     });
+
+
+// }
+
+
+// showFirstQuestion(question[currentQuestionIndex])
+
+function selectAnswer(event) {
+    console.log('hello')
 }
 
 
-showFirstQuestion(question[0])
+submitBtn.addEventListener('click', selectAnswer)
+
+app.start();
